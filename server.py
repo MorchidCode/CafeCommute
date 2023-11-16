@@ -9,7 +9,7 @@ app.config['SECRET_KEY'] = '7BYkEfBA6O6donzWlSihBXox7C0sKR2b'
 
 Bootstrap5(app)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres:///cafes.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///cafes.db'
 db = SQLAlchemy(app)
 
 class Cafe(db.Model):
@@ -102,4 +102,4 @@ def delete(id):
 
 
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=False, host="0.0.0.0")

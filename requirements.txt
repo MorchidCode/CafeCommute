@@ -2,5 +2,4 @@ Flask
 Flask-SQLAlchemy
 Flask-WTF
 Bootstrap_Flask
-gunicorn
-psycopg2-binary
+
