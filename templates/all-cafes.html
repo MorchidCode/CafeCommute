@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+
+{% block title %}All Cafes-Page{{ cafes.page }}{% endblock %}
+{% block content %}
+{% if cafes.items %}
+<div class="container mt-5">
+  <h2 class="mb-4 mx-5 ps-3">Cafes Around the World</h2>
+  <div class="row mx-5">
+      {% for cafe in cafes %}
+      <div class="card mx-4 mb-4" style="width: 18rem;">
+        <!-- Make sure to replace 'path_to_image.jpg' with the path to your image -->
+        <img src="{{ cafe.image }}" class="card-img-top" alt="Cafe Image">
+        <div class="card-body">
+          <h5 class="card-title">{{ cafe.name }}</h5>
+          <p class="card-text">{{ cafe.city_area}}</p>
+          <!-- Replace '#' with the actual link you want users to go to -->
+          <a href="{{ url_for('cafe_detail', id=cafe.id) }}" class="btn btn-primary">Detail</a>
+        </div>
+      </div>
+      {% if loop.index % 3 == 0 %}
+      <div class="w-100"></div> <!-- Break after every 3rd card -->
+      {% endif %}
+      {% endfor %}
+      <nav aria-label="Cafes pagination">
+        <ul class="pagination justify-content-center">
+          <!-- Previous Page Link -->
+          {% if cafes.has_prev %}
+            <li class="page-item">
+              <a class="page-link" href="{{ url_for('all_cafes', page=cafes.prev_num) }}" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+              </a>
+            </li>
+          {% else %}
+            <li class="page-item disabled">
+              <span class="page-link" aria-hidden="true">&laquo;</span>
+            </li>
+          {% endif %}
+      
+          <!-- Page Number Links -->
+          {% for page_num in cafes.iter_pages() %}
+            {% if page_num %}
+              {% if page_num != cafes.page %}
+                <li class="page-item"><a class="page-link" href="{{ url_for('all_cafes', page=page_num) }}">{{ page_num }}</a></li>
+              {% else %}
+                <li class="page-item active" aria-current="page">
+                  <span class="page-link">{{ page_num }}</span>
+                </li>
+              {% endif %}
+            {% else %}
+              <li class="page-item disabled"><span class="page-link">…</span></li>
+            {% endif %}
+          {% endfor %}
+      
+          <!-- Next Page Link -->
+          {% if cafes.has_next %}
+            <li class="page-item">
+              <a class="page-link" href="{{ url_for('all_cafes', page=cafes.next_num) }}" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+              </a>
+            </li>
+          {% else %}
+            <li class="page-item disabled">
+              <span class="page-link" aria-hidden="true">&raquo;</span>
+            </li>
+          {% endif %}
+        </ul>
+      </nav>
+      
+      
+  </div>
+</div>
+
+{% else %}
+  <div class="no-cafes-message">
+    <h2 class="pt-5">No cafes to display</h2>
+    <p class="pb-5">Check back later or add a new cafe.</p>
+  </div>
+{% endif %}
+
+{% endblock %}
